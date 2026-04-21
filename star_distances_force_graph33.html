@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#3498db", "font": {"color": "white"}, "id": "Barnards Star", "label": "Barnards Star", "shape": "dot", "size": 25, "title": "\u0417\u0432\u0435\u0437\u0434\u0430: Barnards Star"}, {"color": "#3498db", "font": {"color": "white"}, "id": "Lalande 21185", "label": "Lalande 21185", "shape": "dot", "size": 25, "title": "\u0417\u0432\u0435\u0437\u0434\u0430: Lalande 21185"}, {"color": "#3498db", "font": {"color": "white"}, "id": "Epsilon Eridani", "label": "Epsilon Eridani", "shape": "dot", "size": 25, "title": "\u0417\u0432\u0435\u0437\u0434\u0430: Epsilon Eridani"}, {"color": "#3498db", "font": {"color": "white"}, "id": "Lacaille 9352", "label": "Lacaille 9352", "shape": "dot", "size": 25, "title": "\u0417\u0432\u0435\u0437\u0434\u0430: Lacaille 9352"}, {"color": "#3498db", "font": {"color": "white"}, "id": "Proxima Centauri AB", "label": "Proxima Centauri AB", "shape": "dot", "size": 25, "title": "\u0417\u0432\u0435\u0437\u0434\u0430: Proxima Centauri AB"}, {"color": "#3498db", "font": {"color": "white"}, "id": "Sirius A", "label": "Sirius A", "shape": "dot", "size": 25, "title": "\u0417\u0432\u0435\u0437\u0434\u0430: Sirius A"}, {"color": "#3498db", "font": {"color": "white"}, "id": "Ross 154", "label": "Ross 154", "shape": "dot", "size": 25, "title": "\u0417\u0432\u0435\u0437\u0434\u0430: Ross 154"}, {"color": "#3498db", "font": {"color": "white"}, "id": "Ross 248", "label": "Ross 248", "shape": "dot", "size": 25, "title": "\u0417\u0432\u0435\u0437\u0434\u0430: Ross 248"}, {"color": "#3498db", "font": {"color": "white"}, "id": "Ross 128", "label": "Ross 128", "shape": "dot", "size": 25, "title": "\u0417\u0432\u0435\u0437\u0434\u0430: Ross 128"}, {"color": "#3498db", "font": {"color": "white"}, "id": "Sun", "label": "Sun", "shape": "dot", "size": 25, "title": "\u0417\u0432\u0435\u0437\u0434\u0430: Sun"}, {"color": "#3498db", "font": {"color": "white"}, "id": "Wolf 359", "label": "Wolf 359", "shape": "dot", "size": 25, "title": "\u0417\u0432\u0435\u0437\u0434\u0430: Wolf 359"}]);
+                  edges = new vis.DataSet([{"color": "#e74c3c", "from": "Barnards Star", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 6.6 \u0441\u0432. \u043b\u0435\u0442", "to": "Proxima Centauri AB", "value": 660.0, "width": 66.8}, {"color": "#e74c3c", "from": "Lalande 21185", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 10.4 \u0441\u0432. \u043b\u0435\u0442", "to": "Proxima Centauri AB", "value": 1040.0, "width": 104.8}, {"color": "#e74c3c", "from": "Epsilon Eridani", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 12.4 \u0441\u0432. \u043b\u0435\u0442", "to": "Proxima Centauri AB", "value": 1240.0, "width": 124.8}, {"color": "#e74c3c", "from": "Lacaille 9352", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 10.3 \u0441\u0432. \u043b\u0435\u0442", "to": "Proxima Centauri AB", "value": 1030.0, "width": 103.8}, {"color": "#e74c3c", "from": "Proxima Centauri AB", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 8.3 \u0441\u0432. \u043b\u0435\u0442", "to": "Wolf 359", "value": 830.0000000000001, "width": 83.8}, {"color": "#e74c3c", "from": "Barnards Star", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 11.1 \u0441\u0432. \u043b\u0435\u0442", "to": "Wolf 359", "value": 1110.0, "width": 111.8}, {"color": "#e74c3c", "from": "Lalande 21185", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 4.2 \u0441\u0432. \u043b\u0435\u0442", "to": "Wolf 359", "value": 420.0, "width": 42.8}, {"color": "#e74c3c", "from": "Sirius A", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 9.1 \u0441\u0432. \u043b\u0435\u0442", "to": "Wolf 359", "value": 910.0, "width": 91.8}, {"color": "#e74c3c", "from": "Ross 154", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 15.2 \u0441\u0432. \u043b\u0435\u0442", "to": "Wolf 359", "value": 1520.0, "width": 152.8}, {"color": "#e74c3c", "from": "Ross 248", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 16.4 \u0441\u0432. \u043b\u0435\u0442", "to": "Wolf 359", "value": 1639.9999999999998, "width": 164.8}, {"color": "#e74c3c", "from": "Epsilon Eridani", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 15.3 \u0441\u0432. \u043b\u0435\u0442", "to": "Wolf 359", "value": 1530.0, "width": 153.8}, {"color": "#e74c3c", "from": "Lacaille 9352", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 18.0 \u0441\u0432. \u043b\u0435\u0442", "to": "Wolf 359", "value": 1800.0, "width": 180.8}, {"color": "#e74c3c", "from": "Ross 128", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 3.9 \u0441\u0432. \u043b\u0435\u0442", "to": "Wolf 359", "value": 390.0, "width": 39.8}, {"color": "#e74c3c", "from": "Sun", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 7.9 \u0441\u0432. \u043b\u0435\u0442", "to": "Wolf 359", "value": 790.0, "width": 79.8}, {"color": "#e74c3c", "from": "Barnards Star", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 10.9 \u0441\u0432. \u043b\u0435\u0442", "to": "Lalande 21185", "value": 1090.0, "width": 109.8}, {"color": "#e74c3c", "from": "Epsilon Eridani", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 15.8 \u0441\u0432. \u043b\u0435\u0442", "to": "Lalande 21185", "value": 1580.0, "width": 158.8}, {"color": "#e74c3c", "from": "Lacaille 9352", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 19.0 \u0441\u0432. \u043b\u0435\u0442", "to": "Lalande 21185", "value": 1900.0, "width": 190.8}, {"color": "#e74c3c", "from": "Proxima Centauri AB", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 9.4 \u0441\u0432. \u043b\u0435\u0442", "to": "Sirius A", "value": 940.0, "width": 94.8}, {"color": "#e74c3c", "from": "Barnards Star", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 14.4 \u0441\u0432. \u043b\u0435\u0442", "to": "Sirius A", "value": 1440.0, "width": 144.8}, {"color": "#e74c3c", "from": "Lalande 21185", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 11.0 \u0441\u0432. \u043b\u0435\u0442", "to": "Sirius A", "value": 1100.0, "width": 110.8}, {"color": "#e74c3c", "from": "Ross 154", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 17.2 \u0441\u0432. \u043b\u0435\u0442", "to": "Sirius A", "value": 1720.0, "width": 172.8}, {"color": "#e74c3c", "from": "Ross 248", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 15.8 \u0441\u0432. \u043b\u0435\u0442", "to": "Sirius A", "value": 1580.0, "width": 158.8}, {"color": "#e74c3c", "from": "Epsilon Eridani", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 7.9 \u0441\u0432. \u043b\u0435\u0442", "to": "Sirius A", "value": 790.0, "width": 79.8}, {"color": "#e74c3c", "from": "Lacaille 9352", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 14.7 \u0441\u0432. \u043b\u0435\u0442", "to": "Sirius A", "value": 1470.0, "width": 147.8}, {"color": "#e74c3c", "from": "Ross 128", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 12.3 \u0441\u0432. \u043b\u0435\u0442", "to": "Sirius A", "value": 1230.0, "width": 123.8}, {"color": "#e74c3c", "from": "Proxima Centauri AB", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 8.2 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 154", "value": 819.9999999999999, "width": 82.8}, {"color": "#e74c3c", "from": "Barnards Star", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 5.5 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 154", "value": 550.0, "width": 55.8}, {"color": "#e74c3c", "from": "Lalande 21185", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 16.0 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 154", "value": 1600.0, "width": 160.8}, {"color": "#e74c3c", "from": "Epsilon Eridani", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 17.6 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 154", "value": 1760.0000000000002, "width": 176.8}, {"color": "#e74c3c", "from": "Lacaille 9352", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 9.6 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 154", "value": 960.0, "width": 96.8}, {"color": "#e74c3c", "from": "Ross 128", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 16.4 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 154", "value": 1639.9999999999998, "width": 164.8}, {"color": "#e74c3c", "from": "Proxima Centauri AB", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 14.1 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 248", "value": 1410.0, "width": 141.8}, {"color": "#e74c3c", "from": "Barnards Star", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 11.4 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 248", "value": 1140.0, "width": 114.8}, {"color": "#e74c3c", "from": "Lalande 21185", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 14.2 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 248", "value": 1420.0, "width": 142.8}, {"color": "#e74c3c", "from": "Ross 154", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 14.8 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 248", "value": 1480.0, "width": 148.8}, {"color": "#e74c3c", "from": "Epsilon Eridani", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 12.6 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 248", "value": 1260.0, "width": 126.8}, {"color": "#e74c3c", "from": "Lacaille 9352", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 13.6 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 248", "value": 1360.0, "width": 136.8}, {"color": "#e74c3c", "from": "Ross 128", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 19.7 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 248", "value": 1970.0, "width": 197.8}, {"color": "#e74c3c", "from": "Barnards Star", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 15.7 \u0441\u0432. \u043b\u0435\u0442", "to": "Epsilon Eridani", "value": 1570.0, "width": 157.8}, {"color": "#e74c3c", "from": "Barnards Star", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 11.5 \u0441\u0432. \u043b\u0435\u0442", "to": "Lacaille 9352", "value": 1150.0, "width": 115.8}, {"color": "#e74c3c", "from": "Epsilon Eridani", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 11.5 \u0441\u0432. \u043b\u0435\u0442", "to": "Lacaille 9352", "value": 1150.0, "width": 115.8}, {"color": "#e74c3c", "from": "Proxima Centauri AB", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 10.4 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 128", "value": 1040.0, "width": 104.8}, {"color": "#e74c3c", "from": "Barnards Star", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 12.8 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 128", "value": 1280.0, "width": 128.8}, {"color": "#e74c3c", "from": "Lalande 21185", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 6.7 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 128", "value": 670.0, "width": 67.8}, {"color": "#e74c3c", "from": "Epsilon Eridani", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 18.9 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 128", "value": 1889.9999999999998, "width": 189.8}, {"color": "#e74c3c", "from": "Lacaille 9352", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 20.6 \u0441\u0432. \u043b\u0435\u0442", "to": "Ross 128", "value": 2060.0, "width": 206.8}, {"color": "#e74c3c", "from": "Proxima Centauri AB", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 4.2 \u0441\u0432. \u043b\u0435\u0442", "to": "Sun", "value": 420.0, "width": 42.8}, {"color": "#e74c3c", "from": "Barnards Star", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 6.0 \u0441\u0432. \u043b\u0435\u0442", "to": "Sun", "value": 600.0, "width": 60.8}, {"color": "#e74c3c", "from": "Lalande 21185", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 8.3 \u0441\u0432. \u043b\u0435\u0442", "to": "Sun", "value": 830.0000000000001, "width": 83.8}, {"color": "#e74c3c", "from": "Sirius A", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 8.6 \u0441\u0432. \u043b\u0435\u0442", "to": "Sun", "value": 860.0, "width": 86.8}, {"color": "#e74c3c", "from": "Ross 154", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 9.7 \u0441\u0432. \u043b\u0435\u0442", "to": "Sun", "value": 969.9999999999999, "width": 97.8}, {"color": "#e74c3c", "from": "Ross 248", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 10.3 \u0441\u0432. \u043b\u0435\u0442", "to": "Sun", "value": 1030.0, "width": 103.8}, {"color": "#e74c3c", "from": "Epsilon Eridani", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 10.5 \u0441\u0432. \u043b\u0435\u0442", "to": "Sun", "value": 1050.0, "width": 105.8}, {"color": "#e74c3c", "from": "Lacaille 9352", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 10.7 \u0441\u0432. \u043b\u0435\u0442", "to": "Sun", "value": 1070.0, "width": 107.8}, {"color": "#e74c3c", "from": "Ross 128", "title": "\u0420\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435: 11.0 \u0441\u0432. \u043b\u0435\u0442", "to": "Sun", "value": 1100.0, "width": 110.8}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"size": 28, "color": "white", "face": "Arial", "bold": true}}, "physics": {"enabled": false, "stabilization": {"enabled": true, "iterations": 50, "updateInterval": 25}, "autoDisable": true}, "interaction": {"dragNodes": true, "zoomView": true, "hover": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
